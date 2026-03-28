@@ -1,0 +1,168 @@
+:root {
+  --bg:        #0a0806;
+  --bg1:       #111009;
+  --bg2:       #1a1610;
+  --bg3:       #252018;
+  --border:    #3a2e1a;
+  --border2:   #2a2214;
+  --gold:      #c8a040;
+  --gold2:     #e8c060;
+  --gold3:     #f5d878;
+  --gold-dim:  #7a5e20;
+  --text:      #ddd0a8;
+  --text2:     #9a8a60;
+  --text3:     #5a4e34;
+  --alliance:  #2a5a9a;
+  --alliance2: #4a8ada;
+  --alliance3: #7ab0f0;
+  --horde:     #9a2020;
+  --horde2:    #da4040;
+  --horde3:    #f07070;
+  --green:     #4a8a4a;
+  --green2:    #7ada7a;
+  --red:       #8a2020;
+  --red2:      #da5050;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* ── noise texture ── */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 999;
+}
+
+/* ══════════════ LAYOUT ══════════════ */
+.app {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 12px 14px 32px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── header ── */
+.hdr {
+  text-align: center;
+  padding: 18px 0 12px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2px;
+}
+.hdr-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.1rem, 4.5vw, 1.55rem);
+  font-weight: 900;
+  color: var(--gold);
+  letter-spacing: .14em;
+  text-shadow: 0 0 28px rgba(200,160,64,.35);
+}
+.hdr-sub {
+  font-size: .8rem;
+  color: var(--text2);
+  font-style: italic;
+  letter-spacing: .06em;
+  margin-top: 3px;
+}
+.mute-btn {
+  margin-top: 10px;
+  padding: 4px 14px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text3);
+  font-family: 'Cinzel', serif;
+  font-size: .6rem;
+  letter-spacing: .12em;
+  cursor: pointer;
+  transition: all .2s;
+}
+.mute-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
+.mute-btn.muted { color: var(--text3); border-color: var(--border2); opacity: .5; }
+
+/* ── xp strip ── */
+.xp-strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0 6px;
+}
+.xp-chip {
+  font-family: 'Cinzel', serif;
+  font-size: .65rem;
+  color: var(--gold);
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 2px 9px;
+  white-space: nowrap;
+  letter-spacing: .08em;
+}
+.xp-bar-wrap {
+  flex: 1;
+  height: 5px;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  overflow: hidden;
+}
+.xp-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold2));
+  transition: width .6s ease;
+  box-shadow: 0 0 6px rgba(200,160,64,.5);
+}
+.streak-chip {
+  font-size: .75rem;
+  color: var(--text2);
+  white-space: nowrap;
+}
+.streak-chip b { color: var(--gold3); }
+
+/* ── screens ── */
+.screen { display: none; flex-direction: column; flex: 1; animation: fadeIn .25s ease; }
+.screen.active { display: flex; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* ── section label ── */
+.sec-label {
+  font-family: 'Cinzel', serif;
+  font-size: .65rem;
+  letter-spacing: .18em;
+  color: var(--text3);
+  text-transform: uppercase;
+  margin: 18px 0 8px;
+}
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 10px 0;
+}
+
+/* ── back button ── */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Cinzel', serif;
+  font-size: .65rem;
+  letter-spacing: .12em;
+  color: var(--text3);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 0 4px;
+  transition: color .2s;
+  text-transform: uppercase;
+}
+.back-btn:hover { color: var(--gold); }
+
