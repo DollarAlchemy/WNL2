@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ordbok — WoW Norsk Trainer</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/screens.css">
+</head>
+<body>
+<div class="app">
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-title">⚔ ORDBOK ⚔</div>
+  <div class="hdr-sub">WoW Classic &amp; TBC · Norsk Treningsleir</div>
+  <button class="mute-btn" id="muteBtn" onclick="toggleBGM()" title="Toggle music">♪ BGM ON</button>
+</div>
+
+<!-- XP STRIP -->
+<div class="xp-strip">
+  <div class="xp-chip">LVL <span id="xLvl">1</span></div>
+  <div class="xp-bar-wrap"><div class="xp-bar-fill" id="xBar" style="width:0%"></div></div>
+  <div class="streak-chip">Streak <b id="xStr">0</b>🔥</div>
+  <div class="xp-chip"><span id="xCur">0</span>/<span id="xNxt">100</span></div>
+</div>
+
+<!-- ════════ SCREEN: FACTION ════════ -->
+<div class="screen active" id="sFaction">
+  <div class="sec-label">Choose your faction</div>
+  <div class="faction-row">
+    <button class="faction-card alliance" onclick="pickFaction('alliance')">
+      <span class="faction-icon">🔵</span>
+      <div class="faction-name">ALLIANCE</div>
+      <div class="faction-races">Human · Dwarf · Night Elf · Gnome<br><i>+ Draenei (TBC)</i></div>
+    </button>
+    <button class="faction-card horde" onclick="pickFaction('horde')">
+      <span class="faction-icon">🔴</span>
+      <div class="faction-name">HORDE</div>
+      <div class="faction-races">Orc · Troll · Tauren · Undead<br><i>+ Blood Elf (TBC)</i></div>
+    </button>
+  </div>
+  <div class="divider"></div>
+  <div class="sec-label">Or jump straight to classes</div>
+  <div class="pick-grid" id="quickClassGrid"></div>
+  <button class="start-btn" id="quickStart" onclick="launchQuickClasses()" disabled>BEGIN SESSION ▶</button>
+</div>
+
+<!-- ════════ SCREEN: RACE SELECT ════════ -->
+<div class="screen" id="sRace">
+  <button class="back-btn" onclick="go('sFaction','sRace')">← Back</button>
+  <div class="sec-label" id="raceLabel">Alliance Races</div>
+  <div class="pick-grid" id="raceGrid"></div>
+  <div class="divider"></div>
+  <div class="sec-label">Classes</div>
+  <div class="pick-grid" id="classGridR"></div>
+  <div class="divider"></div>
+  <div class="sec-label">Class Detail Depth</div>
+  <div class="depth-row" id="depthRow">
+    <button class="depth-chip sel" data-d="weapons">Weapons</button>
+    <button class="depth-chip sel" data-d="armor">Armor</button>
+    <button class="depth-chip sel" data-d="playstyle">Playstyle</button>
+  </div>
+  <button class="start-btn" onclick="launch()">BEGIN SESSION ▶</button>
+</div>
+
+<!-- ════════ SCREEN: QUIZ ════════ -->
+<div class="screen" id="sQuiz">
+  <button class="back-btn" onclick="go('sRace','sQuiz'); stopTimer();">← Back</button>
+  <div class="quiz-meta">
+    <div class="quiz-ctx" id="qCtx">TOPIC · <span>—</span></div>
+    <div class="timer-wrap">
+      <svg class="timer-svg" width="40" height="40" viewBox="0 0 40 40">
+        <circle class="t-bg" cx="20" cy="20" r="16"/>
+        <circle class="t-arc" id="tArc" cx="20" cy="20" r="16"/>
+      </svg>
+      <div class="timer-n" id="tNum">15</div>
+    </div>
+    <div class="quiz-prog"><b id="qN">1</b>/<span id="qT">—</span></div>
+  </div>
+
+  <div class="q-card" id="qCard">
+    <div class="q-tag" id="qTag">—</div>
+    <div class="q-english" id="qEn">—</div>
+    <div class="q-context" id="qCtx2"></div>
+  </div>
+
+  <div class="fb" id="fb"></div>
+
+  <div class="opts-grid" id="optsGrid"></div>
+
+  <div class="action-row">
+    <button class="skip-btn" onclick="skipCard()">Skip</button>
+    <button class="next-btn" id="nextBtn" onclick="nextCard()">NEXT CARD →</button>
+  </div>
+</div>
+
+<!-- ════════ SCREEN: RESULTS ════════ -->
+<div class="screen" id="sResults">
+  <div class="results-body">
+    <div class="res-icon" id="resIcon">⚔</div>
+    <div class="res-title" id="resTitle">SESSION COMPLETE</div>
+    <div class="stat-row">
+      <div class="stat-box"><span class="stat-n" id="sC">0</span><div class="stat-l">Correct</div></div>
+      <div class="stat-box"><span class="stat-n" id="sW">0</span><div class="stat-l">Wrong</div></div>
+      <div class="stat-box"><span class="stat-n" id="sP">0%</span><div class="stat-l">Score</div></div>
+    </div>
+    <div class="missed-block">
+      <div class="missed-head" id="missH"></div>
+      <div id="missL"></div>
+    </div>
+    <div class="action-row" style="width:100%;max-width:380px">
+      <button class="skip-btn" onclick="go('sFaction','sResults')">← Menu</button>
+      <button class="next-btn" style="display:block;flex:1" onclick="relaunch()">PLAY AGAIN ⟳</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- /app -->
+
+<!-- Load order matters: data → audio → state → ui → quiz -->
+<script src="js/data.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/state.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/quiz.js"></script>
+</body>
+</html>
